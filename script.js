@@ -17,6 +17,8 @@ let board = [
     ["_", "_", "_"],
 ]
 
+const resetButton = document.querySelector("#reset");
+
 const getCellPlacement = (index, numberOfRows) => {
     const row = Math.floor(index / numberOfRows);
     const col = index % numberOfRows;
@@ -24,11 +26,34 @@ const getCellPlacement = (index, numberOfRows) => {
     return [row, col];
 };
 
-const checkWin = () => false;
+const checkWin = () => true;
 
-const runWinEvent = () => false;
+const resetBoard = () => {
+    document.querySelector(".board").remove();
+    createBoard();
+    board = [
+        ["_", "_", "_"],
+        ["_", "_", "_"],
+        ["_", "_", "_"],
+    ];
 
-const runDrawEvent = () => false;
+    currentPlayer = "X";
+    turnsCounter = 0;
+}
+
+const runWinEvent = () => {
+    setTimeout(() => {
+        alert(`Player ${currentPlayer} won!`);
+        resetBoard();
+    }, 100);
+};
+
+const runDrawEvent = () => {
+    setTimeout(() => {
+        alert("Draw!");
+        resetBoard();
+    }, 100);
+};
 
 const drawMarkInCell = (cell, currentPlayer) => {
     cell.querySelector(".value").textContent = currentPlayer;
@@ -46,7 +71,7 @@ const cellClickHandler = (event, index) => {
         drawMarkInCell(cell, currentPlayer);
 
         if (checkWin()) {
-            runWinEvent();
+            runWinEvent(currentPlayer);
         } else {
             turnsCounter === turns && runDrawEvent();
 
@@ -74,5 +99,7 @@ const createBoard = () => {
 
     container.insertAdjacentElement("afterbegin", board);
 }
+
+resetButton.addEventListener("click", resetBoard);
 
 createBoard();
