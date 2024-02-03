@@ -159,6 +159,16 @@ const cellClickHandler = (event, index) => {
     }
 };
 
+const createCell = (index) => {
+    const cellElementString = `<div class="cell" role="button" tabindex="${index + 1}"><span class="value"></span></div>`;
+    const cellElement = document.createRange().createContextualFragment(cellElementString);
+
+    cellElement.querySelector(".cell").onclick = (event) => cellClickHandler(event, index);
+    cellElement.querySelector(".cell").onkeydown = (event) => event.key === "Enter" ? cellClickHandler(event, index) : true;
+
+    return cellElement;
+}
+
 const createBoard = () => {
     const container = document.querySelector(".container");
     const board = document.createElement("div");
@@ -166,10 +176,7 @@ const createBoard = () => {
     board.classList.add("board");
 
     for (let i = 0; i < NUMBER_OF_ROWS ** 2; i++) {
-        const cellElementString = `<div class="cell"><span class="value"></span></div>`;
-        const cellElement = document.createRange().createContextualFragment(cellElementString);
-
-        cellElement.querySelector(".cell").onclick = (event) => cellClickHandler(event, i);
+        const cellElement = createCell(i)
         board.appendChild(cellElement);
 
         // set/change the value of --grid-rows css variable
