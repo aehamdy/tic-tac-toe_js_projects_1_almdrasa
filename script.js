@@ -1,21 +1,19 @@
 let currentPlayer = "X";
-const NUMBER_OF_ROWS = 3;
+let NUMBER_OF_ROWS = 3;
 const turns = NUMBER_OF_ROWS ** 2;
 let turnsCounter = 0;
 
-/*
-    let x = [
-        ["X", "_", "_"],
-        ["_", "X", "_"],
-        ["_", "_", "X"],
-    ]
-*/
+const createBoardArray = () => {
+    let board = [];
 
-let board = [
-    ["_", "_", "_"],
-    ["_", "_", "_"],
-    ["_", "_", "_"],
-]
+    for (let row = 0; row < NUMBER_OF_ROWS; row++) {
+        board.push(Array.from({length: NUMBER_OF_ROWS}, () => "_"));
+    }
+
+    return board;
+}
+
+let board = createBoardArray();
 
 const resetButton = document.querySelector("#reset");
 
@@ -103,6 +101,7 @@ const checkWin = (currentPlayer) => {
     //     checkReversedDiagonal(currentPlayer)
     // );
 
+    // This code is as same as the code above
     if (checkRows(currentPlayer)) return true;
 
     if (checkColumns(currentPlayer)) return true;
@@ -115,11 +114,7 @@ const checkWin = (currentPlayer) => {
 const resetBoard = () => {
     document.querySelector(".board").remove();
     createBoard();
-    board = [
-        ["_", "_", "_"],
-        ["_", "_", "_"],
-        ["_", "_", "_"],
-    ];
+    board = createBoardArray();
 
     currentPlayer = "X";
     turnsCounter = 0;
